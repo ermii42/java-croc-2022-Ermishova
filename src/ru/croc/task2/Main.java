@@ -1,7 +1,7 @@
 package ru.croc.task2;
 import java.util.Scanner;
 
-public class task2 {
+public class Main {
     static void printBytes(double number){
 
         // массив ед. измерения
