@@ -15,21 +15,21 @@ public class Main {
 
     // поиск площади (использую формулу Герона)
     static double square(Point a, Point b, Point c){
-        double ab_side, ac_side, bc_side;
+        double abSide, acSide, bcSide;
         // вычисление всех трех сторон
-        ab_side = a.getDistance(b);
-        ac_side = a.getDistance(c);
-        bc_side = b.getDistance(c);
+        abSide = a.getDistance(b);
+        acSide = a.getDistance(c);
+        bcSide = b.getDistance(c);
 
         // проверка треугольника на существование
-        if((ab_side+ac_side <= bc_side)||(ab_side+bc_side<=ac_side)||(bc_side+ac_side)<=ab_side){
+        if((abSide+acSide <= bcSide)||(abSide+bcSide<=acSide)||(bcSide+acSide)<=abSide){
             return -1;
         }
 
         // вычисление полупериметра
-        double semi_perimentr = (ab_side + ac_side + bc_side)/2;
+        double SemiPerimentr = (abSide + acSide + bcSide)/2;
         // по формуле Герона вычисляем площадь
-        double result = Math.sqrt(semi_perimentr*(semi_perimentr-ab_side)*(semi_perimentr-ac_side)*(semi_perimentr-bc_side));
+        double result = Math.sqrt(SemiPerimentr*(SemiPerimentr-abSide)*(SemiPerimentr-acSide)*(SemiPerimentr-bcSide));
         return result;
     }
 
