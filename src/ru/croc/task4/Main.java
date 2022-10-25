@@ -25,6 +25,8 @@ public class Main {
         noComments=removeJavaComments(testSourse);
         System.out.println(noComments);
 
+
+
         // ввод построчно до тех пор, пока пользователь не введет слово "стоп"
         /*
         String source="";
