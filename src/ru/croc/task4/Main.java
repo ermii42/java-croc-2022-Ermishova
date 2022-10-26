@@ -26,6 +26,7 @@ public class Main {
         System.out.println(noComments);
 
         // ввод построчно до тех пор, пока пользователь не введет слово "стоп"
+
         /*
         String source="";
         source = in.nextLine();
@@ -60,7 +61,7 @@ public class Main {
                     output += lines[j].charAt(i);
                 }
             }
-            if (j != lines.length) output += "\n";
+            if (j != lines.length-1) output += "\n";
             flag1 = false;
             flag2 = false;
         }
