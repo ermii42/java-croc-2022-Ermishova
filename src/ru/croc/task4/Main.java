@@ -32,7 +32,8 @@ public class Main {
         source = in.nextLine();
         while(!source.equals("stop")){
             noComments = removeJavaComments(source);
-            System.out.println(noComments);
+            System.out.println(noC
+            omments);
             source = in.nextLine();
         }
         */
