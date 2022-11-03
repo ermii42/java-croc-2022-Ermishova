@@ -1,6 +1,6 @@
 package ru.croc.task6;
 
-public class Rectangle extends Figure implements Movable {
+public class Rectangle extends Figure {
     private int x1, y1, x2, y2;
     Rectangle(int x1, int y1, int x2, int y2, String signature){
         this.x1 = x1;
@@ -11,43 +11,21 @@ public class Rectangle extends Figure implements Movable {
     }
 
     @Override
-    public int getX1() {
-        return x1;
-    }
-
-    @Override
-    public int getY1() {return y1;}
-
-    @Override
-    public int getX2() {
-        return x2;
-    }
-
-    @Override
-    public int getY2() {
-        return y2;
-    }
-
-    @Override
-    public int getRadius() {
-        return 0;
-    }
-
-    @Override
-    public int getX0() {
-        return 0;
-    }
-
-    @Override
-    public int getY0() {
-        return 0;
-    }
-
-    @Override
     public void move(int dx, int dy) {
         x1 += dx;
         x2 += dx;
         y1 += dy;
         y2 += dy;
+    }
+
+    @Override
+    public Boolean inArea(int x, int y) {
+        if((x1 <= x && x <= x2) && (y1<=y && y<= y2)) return true;
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("R (%d, %d), (%d, %d): %s", x1, y1, x2, y2, signature);
     }
 }
