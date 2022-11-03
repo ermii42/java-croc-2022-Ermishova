@@ -3,8 +3,7 @@ package ru.croc.task6;
 public class Circle extends Figure{
     private int x0, y0, radius;
 
-    Circle(int x0, int y0, int radius, String signature){
-        this.signature = signature;
+    Circle(int x0, int y0, int radius){
         this.x0 = x0;
         this.y0 = y0;
         this.radius = radius;
@@ -18,7 +17,7 @@ public class Circle extends Figure{
 
     @Override
     public String toString() {
-        return String.format("C (%d, %d), %d: %s", x0, y0, radius, signature);
+        return String.format("C (%d, %d), %d: ", x0, y0, radius);
     }
 
     @Override
