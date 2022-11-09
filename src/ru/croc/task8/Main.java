@@ -19,6 +19,7 @@ public class Main {
         String line;
         while ((line = r.readLine()) != null)
             if(!line.isEmpty()) k += line.split("[\\s,;]+").length;
+        r.close();
         return k;
     }
 }
