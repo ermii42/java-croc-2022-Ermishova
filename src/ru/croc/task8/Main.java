@@ -7,15 +7,19 @@ import java.io.*;
  */
 public class Main {
     public static void main(String[] args) {
-        int k=0;
-        try (BufferedReader r = new BufferedReader(new FileReader(args[0]))) {
-            String line;
-            while ((line = r.readLine()) != null)
-                k += line.split("[\\s,;]+").length;
+        try {
+            System.out.println(countWords(args[0]));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        System.out.println(k);
+    }
+    public static int countWords(String filename) throws IOException {
+        BufferedReader r = new BufferedReader(new FileReader(filename));
+        int k=0;
+        String line;
+        while ((line = r.readLine()) != null)
+            if(!line.isEmpty()) k += line.split("[\\s,;]+").length;
+        return k;
     }
 }
 //java src/ru/croc/task8/Main.java src/ru/croc/task8/sourse/inp.txt
