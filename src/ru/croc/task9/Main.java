@@ -1,8 +1,7 @@
 package ru.croc.task9;
 
+import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,17 +11,25 @@ public class Main {
     }
 
     public static String getPath(String line) {
-        Pattern pattern = Pattern.compile("\\.{1,2}/([a-zA-Z0-9а-яА-Я/]+)");
-        Matcher matcher = pattern.matcher(line);
-        int k = 0;
-        while (matcher.find(k)) {
-            k++;
+        String[] lst = line.split("/");
+        LinkedList<String> res = new LinkedList<>();
+        boolean prevString = false;
+        for (String elem : lst) {
+            if (elem.equals("..")) {
+                if (res.isEmpty() || !prevString) {
+                    res.add("..");
+                    prevString = false;
+                } else {
+                    res.removeLast();
+                    if (res.isEmpty()) continue;
+                    else if (res.getLast().equals("..")) prevString = false;
+                }
+            } else if (elem.equals(".")) {
+            } else {
+                res.add(elem);
+                prevString = true;
+            }
         }
-        k -= 2;
-        if (k < 0) return line;
-        else if (matcher.find(k)) {
-            return matcher.group();
-        }
-        return "";
+        return String.join("/", res);
     }
 }
