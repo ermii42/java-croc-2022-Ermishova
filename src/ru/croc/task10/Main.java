@@ -6,10 +6,11 @@ import java.security.NoSuchAlgorithmException;
 //java src/ru/croc/task10/Main.java 2 40682260CC011947FC2D0B1A927138C5
 public class Main {
     public static void main(String[] args) {
+        //System.out.println(hashPassword("abcde"));
         int n = Integer.parseInt(args[0]);
         String hex = args[1];
         Thread t;
-        int len = 5;
+        int len = 7;
         long min = min(len);
         long max = max(len);
         long step = (max - min) / n;
@@ -19,13 +20,13 @@ public class Main {
         // перебор
         for (long i = min + step; i <= max; i += step) {
             t = new MyThread(from, i, hex);
-            t.run();
+            t.start();
             from = i + 1;
             k++;
             if (k == n) break;
         }
         t = new MyThread(from, max, hex);
-        t.run();
+        t.start();
 
     }
 

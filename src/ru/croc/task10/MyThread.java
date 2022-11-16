@@ -13,7 +13,7 @@ public class MyThread extends Thread {
         this.to = to;
     }
 
-    public void run() {
+    public void start() {
         for (long i = from; i <= to; i++) {
             if (!check(i)) continue;
             String code = code(i);
