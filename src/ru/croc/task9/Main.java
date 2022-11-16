@@ -10,16 +10,17 @@ public class Main {
         String input = in.nextLine();
         System.out.println(getPath(input));
     }
-    public static String getPath(String line){
+
+    public static String getPath(String line) {
         Pattern pattern = Pattern.compile("\\.{1,2}/([a-zA-Z0-9а-яА-Я/]+)");
         Matcher matcher = pattern.matcher(line);
-        int k=0;
-        while (matcher.find(k)){
+        int k = 0;
+        while (matcher.find(k)) {
             k++;
         }
-        k-=2;
-        if(k<0) return line;
-        else if(matcher.find(k)){
+        k -= 2;
+        if (k < 0) return line;
+        else if (matcher.find(k)) {
             return matcher.group();
         }
         return "";
