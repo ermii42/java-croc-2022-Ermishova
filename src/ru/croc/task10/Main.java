@@ -23,7 +23,7 @@ public class Main {
             t.start();
             from = i + 1;
             k++;
-            if (k == n-1) break;
+            if (k == n - 1) break;
         }
         t = new MyThread(from, max, hex);
         t.start();
