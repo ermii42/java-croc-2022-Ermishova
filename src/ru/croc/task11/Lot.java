@@ -17,7 +17,7 @@ public class Lot implements Runnable {
 
     // ставка
     public boolean Bid(int currentPrice, String userName, Date date) {
-        if (date.before(this.date)) return false;
+        if (date.after(this.date)) return false;
         if (currentPrice < this.currentPrice) {
             this.currentPrice = currentPrice;
             this.userName = userName;
