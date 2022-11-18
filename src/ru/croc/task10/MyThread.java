@@ -4,8 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MyThread extends Thread {
-    private long from, to;
-    private String hex;
+    private final long from;
+    private final long to;
+    private final String hex;
 
     public MyThread(long from, long to, String hex) {
         this.from = from;

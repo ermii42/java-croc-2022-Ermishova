@@ -21,11 +21,11 @@ public class Main {
                     prevString = false;
                 } else {
                     res.removeLast();
-                    if (res.isEmpty()) continue;
-                    else if (res.getLast().equals("..")) prevString = false;
+                    if (!res.isEmpty()){
+                        if (res.getLast().equals("..")) prevString = false;
+                    }
                 }
-            } else if (elem.equals(".")) {
-            } else {
+            } else if (!elem.equals(".")) {
                 res.add(elem);
                 prevString = true;
             }
