@@ -2,8 +2,9 @@ package ru.croc.task10;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.Callable;
 
-public class MyThread extends Thread {
+public class MyThread implements Callable<String> {
     private final long from;
     private final long to;
     private final String hex;
@@ -14,15 +15,28 @@ public class MyThread extends Thread {
         this.to = to;
     }
 
-    public void run() {
+    @Override
+    public String call() throws Exception {
         for (long i = from; i <= to; i++) {
             if (!check(i)) continue;
             String code = code(i);
             if (hex.equals(hashPassword(code))) {
-                System.out.println(code);
-                System.exit(10);
+                return code;
             }
         }
+        return "";
+    }
+
+    public static String hashPassword(String password) {
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        digest.update(password.getBytes());
+        byte[] bytes = digest.digest();
+        return toHexString(bytes);
     }
 
     static boolean check(long i) {
@@ -50,15 +64,5 @@ public class MyThread extends Thread {
         return hex.toString();
     }
 
-    private static String hashPassword(String password) {
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        digest.update(password.getBytes());
-        byte[] bytes = digest.digest();
-        return toHexString(bytes);
-    }
+
 }
