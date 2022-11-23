@@ -1,62 +1,25 @@
 package ru.croc.task10;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 public class Solution {
-    private static int len = 7;
+    public static volatile String password;
+    public static volatile String hex;
 
-    public static String calculatePassword(int threadsNumber, String hashPass) throws ExecutionException, InterruptedException {
-        ExecutorService pool = Executors.newFixedThreadPool(threadsNumber);
+    public static String calculatePassword(int threadsCounter, String hash) {
+        hex = hash;
 
-        long min = min(len);
-        long max = max(len);
-        long step = (max - min) / threadsNumber;
-        long from = min;
-        int k = 0;
-        Future<String> result;
+        Thread[] threads = new Thread[threadsCounter];
 
-        // перебор
-        for (long i = min + step; i <= max; i += step) {
-            result = pool.submit(new MyThread(from, i, hashPass));
-            from = i + 1;
-            k++;
-            if(!result.get().isEmpty()){
-                pool.shutdownNow();
-                return result.get();
+        for (int i = 1; i <= threadsCounter; ++i) {
+            threads[i - 1] = new Thread(new FindPassword(i, threadsCounter, 7));
+            threads[i - 1].start();
+        }
+        try {
+            for (int i = 0; i < threadsCounter; ++i) {
+                threads[i].join();
             }
-            if (k == threadsNumber - 1) break;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        result = pool.submit(new MyThread(from, max, hashPass));
-        if(!result.get().isEmpty()) {
-            pool.shutdownNow();
-        }
-        return result.get();
-    }
-
-    public static void setLen(int len) {
-        Solution.len = len;
-    }
-
-    static long max(int length) {
-        long max = 0;
-        long radixPower = 1;
-        for (int i = 0; i < length; i++) {
-            radixPower = i == 0 ? 1 : radixPower * 36;
-            max = max + radixPower;
-        }
-        return max * 35;
-    }
-
-    static long min(int length) {
-        long min = 0;
-        long radixPower = 1;
-        for (int i = 0; i < length; i++) {
-            radixPower = i == 0 ? 1 : radixPower * 36;
-            min = min + radixPower;
-        }
-        return min * 10;
+        return password;
     }
 }
