@@ -11,8 +11,6 @@ public class Solution {
     public static String calculatePassword(int threadsNumber, String hashPass) throws ExecutionException, InterruptedException {
         ExecutorService pool = Executors.newFixedThreadPool(threadsNumber);
 
-        //Thread t;
-        // длина исходного пароля
         long min = min(len);
         long max = max(len);
         long step = (max - min) / threadsNumber;
@@ -22,22 +20,27 @@ public class Solution {
 
         // перебор
         for (long i = min + step; i <= max; i += step) {
-            //t = new MyThread(from, i, hashPass);
             result = pool.submit(new MyThread(from, i, hashPass));
             from = i + 1;
             k++;
-            if(!result.get().isEmpty()) return result.get();
+            if(!result.get().isEmpty()){
+                pool.shutdownNow();
+                return result.get();
+            }
             if (k == threadsNumber - 1) break;
         }
         result = pool.submit(new MyThread(from, max, hashPass));
+        if(!result.get().isEmpty()) {
+            pool.shutdownNow();
+        }
         return result.get();
     }
 
-    public void setLen(int len) {
-        this.len = len;
+    public static void setLen(int len) {
+        Solution.len = len;
     }
 
-    static long max(long length) {
+    static long max(int length) {
         long max = 0;
         long radixPower = 1;
         for (int i = 0; i < length; i++) {
@@ -47,7 +50,7 @@ public class Solution {
         return max * 35;
     }
 
-    static long min(long length) {
+    static long min(int length) {
         long min = 0;
         long radixPower = 1;
         for (int i = 0; i < length; i++) {
