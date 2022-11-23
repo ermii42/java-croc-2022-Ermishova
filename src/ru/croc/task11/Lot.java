@@ -4,10 +4,10 @@ package ru.croc.task11;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Lot implements Runnable {
+public class Lot {
     private static final Object lock = new Object();
     int currentPrice;
-    String userName;
+    String userName = "";
     Date date;
 
     // в конструктор подается время окончания торгов
@@ -17,34 +17,24 @@ public class Lot implements Runnable {
 
     // ставка
     public boolean Bid(int currentPrice, String userName, Date date) {
-        if (date.after(this.date)) return false;
-        if (currentPrice > this.currentPrice) {
-            this.currentPrice = currentPrice;
-            this.userName = userName;
+        synchronized (lock){
+            if (date.after(this.date)) return false;
+            if (currentPrice > this.currentPrice) {
+                this.currentPrice = currentPrice;
+                this.userName = userName;
+            }
+            return true;
         }
-        return true;
     }
 
     // получение победителя
     public String getWinner() {
-        return userName;
-    }
 
-
-    @Override
-    public void run() {
-        Scanner in = new Scanner(System.in);
-        int pr;
-        String name;
-        while (true) {
-            synchronized (lock) {
-                pr = in.nextInt();
-                name = in.next();
-                // на вход подается текущее время
-                // если оно позже закрытия торгов, аукцион прекращается
-                if (!Bid(pr, name, new Date())) break;
-            }
+        if(userName.isEmpty() || (new Date()).before(this.date)){
+            return "ставки не окончены";
         }
-        System.out.println("И победителем аукциона является - " + getWinner());
+        else{
+            return userName;
+        }
     }
 }
