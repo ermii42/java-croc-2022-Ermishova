@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class Lot {
     private static final Object lock = new Object();
     int currentPrice;
-    String userName = "";
-    Date date;
+    private volatile String userName = "";
+    private volatile Date date;
 
     // в конструктор подается время окончания торгов
     public Lot(Date date) {
@@ -30,7 +30,7 @@ public class Lot {
     // получение победителя
     public String getWinner() {
 
-        if(userName.isEmpty() || (new Date()).before(this.date)){
+        if((new Date()).before(this.date)){
             return "ставки не окончены";
         }
         else{
