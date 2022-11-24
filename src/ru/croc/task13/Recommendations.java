@@ -20,8 +20,8 @@ public class Recommendations {
         List<List<Integer>> interestsCoincide = new ArrayList<>();
 
         // отбор из базы данных людей, с которыми у пользователя совпадают интересы
-        for (int i = 0; i < preferencesBase.size(); i++) {
-            ArrayList<Integer> pref = (ArrayList<Integer>) preferencesBase.get(i);
+        for (List<Integer> integers : preferencesBase) {
+            ArrayList<Integer> pref = (ArrayList<Integer>) integers;
             if (intersection(pref)) {
                 interestsCoincide.add(pref);
             }
@@ -30,7 +30,7 @@ public class Recommendations {
         // поиск фильма по алгоритму
         int maxCount = -1;
         String film = "";
-        int currentCount = 0;
+        int currentCount;
         for (Map.Entry<Integer, String> entry : films.entrySet()) {
             currentCount = 0;
             for (List<Integer> interest : interestsCoincide) {
