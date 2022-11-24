@@ -13,8 +13,8 @@ public class Comments implements BlackListFilter {
         for (String comment : comments) {
             for (String badWord : blackList) {
                 // проверка, есть ли в строке плохие слова
-                for(String elem: comment.toLowerCase(Locale.ROOT).split("[^A-Za-zА-Яа-я]+")){
-                    if(elem.equals(badWord)){
+                for (String elem : comment.toLowerCase(Locale.ROOT).split("[^A-Za-zА-Яа-я]+")) {
+                    if (elem.equals(badWord)) {
                         deletedComments.add(comment);
                         break;
                     }
