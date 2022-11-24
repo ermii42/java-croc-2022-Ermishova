@@ -8,7 +8,7 @@ public class Lot {
     private static final Object lock = new Object();
     int currentPrice;
     private volatile String userName = "";
-    private volatile Date date;
+    private final Date date;
 
     // в конструктор подается время окончания торгов
     public Lot(Date date) {
@@ -17,7 +17,7 @@ public class Lot {
 
     // ставка
     public boolean Bid(int currentPrice, String userName, Date date) {
-        synchronized (lock){
+        synchronized (lock) {
             if (date.after(this.date)) return false;
             if (currentPrice > this.currentPrice) {
                 this.currentPrice = currentPrice;
@@ -30,10 +30,9 @@ public class Lot {
     // получение победителя
     public String getWinner() {
 
-        if((new Date()).before(this.date)){
+        if ((new Date()).before(this.date)) {
             return "ставки не окончены";
-        }
-        else{
+        } else {
             return userName;
         }
     }
