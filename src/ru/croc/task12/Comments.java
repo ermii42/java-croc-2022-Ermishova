@@ -12,21 +12,11 @@ public class Comments implements BlackListFilter {
         List<String> deletedComments = new ArrayList<>();
         for (String comment : comments) {
             for (String badWord : blackList) {
-                // проверка, является ли плохое слово подсловом другого или нет (однокоренные слова не учитываются)
-                if (comment.toLowerCase(Locale.ROOT).contains(badWord.toLowerCase(Locale.ROOT))) {
-                    int index = comment.toLowerCase(Locale.ROOT).indexOf(badWord.toLowerCase(Locale.ROOT));
-                    boolean b1 = index + badWord.length() <= comment.length();
-                    boolean b2 = !Character.isLetter(comment.charAt(index + badWord.length()));
-                    if (index == 0 && b1) {
-                        if (b2) {
-                            deletedComments.add(comment);
-                        }
-                    } else if (index != 0 && b1) {
-                        if (!Character.isLetter(comment.charAt(index - 1)) && b2) {
-                            deletedComments.add(comment);
-                        }
-                    } else {
+                // проверка, есть ли в строке плохие слова
+                for(String elem: comment.toLowerCase(Locale.ROOT).split("[^A-Za-zА-Яа-я]+")){
+                    if(elem.equals(badWord)){
                         deletedComments.add(comment);
+                        break;
                     }
                 }
             }
