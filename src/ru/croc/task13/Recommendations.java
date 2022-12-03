@@ -44,6 +44,9 @@ public class Recommendations {
                 film = films.get(movie);
             }
         }
+        if(maxCount == -1){
+            return null;
+        }
         return film;
     }
 

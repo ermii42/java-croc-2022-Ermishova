@@ -22,8 +22,13 @@ public class Main {
         // рекомендация фильма для конкретного пользователя
         Recommendations movie = new Recommendations(films, users, watchedMovies);
         String res = movie.getRecommendation();
-        System.out.println("Пользователю рекомендуем посмотреть фильм:");
-        System.out.println(res);
+        if(res == null){
+            System.out.println("К сожалению, не удалось подобрать рекомендацию для пользователя");
+        }
+        else{
+            System.out.println("Пользователю рекомендуем посмотреть фильм:");
+            System.out.println(res);
+        }
     }
 
     static void getFilmBase(Map<Integer, String> films) {
