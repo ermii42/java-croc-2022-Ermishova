@@ -9,45 +9,62 @@ public class Main {
 
         // получение базы фильмов из файла
         Map<Integer, String> films = new HashMap<>();
-        String scan;
-        try (Scanner s = new Scanner(new FileReader("src/ru/croc/task13/sourse/" + "films.txt"))) {
-            while (s.hasNextLine()) {
-                scan = s.nextLine();
-                films.put(scan.charAt(0) - '0', scan.substring(2));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        getFilmBase(films);
 
         // получение базы просмотров людей
         List<List<Integer>> users = new ArrayList<>();
-        List<Integer> user;
-        try (Scanner s = new Scanner(new FileReader("src/ru/croc/task13/sourse/" + "users.txt"))) {
-            while (s.hasNextLine()) {
-                int iterationCount = 0;
-                scan = s.nextLine();
-                user = new ArrayList<>();
-                for (int i = 0; i < scan.length(); i += 2, iterationCount += 1) {
-                    user.add(scan.charAt(i) - '0');
-                }
-                users.add(user);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        getPeopleBase(users);
 
         // ввод просмотров отдельного пользователя (через консоль)
         List<Integer> watchedMovies = new ArrayList<>();
-        int iterationCount = 0;
-        Scanner s = new Scanner(System.in);
-        String userMovies = s.nextLine();
-        for (int i = 0; i < userMovies.length(); i += 2, iterationCount += 1) {
-            watchedMovies.add(userMovies.charAt(i) - '0');
-        }
+        getWatchedMovies(watchedMovies);
 
         // рекомендация фильма для конкретного пользователя
         Recommendations movie = new Recommendations(films, users, watchedMovies);
         String res = movie.getRecommendation();
+        System.out.println("Пользователю рекомендуем посмотреть фильм:");
         System.out.println(res);
+    }
+
+    static void getFilmBase(Map<Integer, String> films) {
+        String[] scan;
+        String path = "src/ru/croc/task13/sourse/" + "films.txt";
+        try (Scanner s = new Scanner(new FileReader(path))) {
+            while (s.hasNextLine()) {
+                scan = s.nextLine().split(",");
+                films.put(Integer.valueOf(scan[0]), scan[1]);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл " + path + " не был найден");
+            System.exit(-1);
+        }
+    }
+
+    static void getPeopleBase(List<List<Integer>> users) {
+        List<Integer> user;
+        String[] scan;
+        String path = "src/ru/croc/task13/sourse/" + "users.txt";
+        try (Scanner s = new Scanner(new FileReader(path))) {
+            while (s.hasNextLine()) {
+                scan = s.nextLine().split(",");
+                user = new ArrayList<>();
+                for (String movie : scan) {
+                    user.add(Integer.valueOf(movie));
+                }
+                users.add(user);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл " + path + " не был найден");
+            System.exit(-1);
+        }
+    }
+
+    static void getWatchedMovies(List<Integer> watchedMovies) {
+        System.out.println("Введите просмотры пользователя через запятую:");
+        Scanner s = new Scanner(System.in);
+        String[] userMovies = s.nextLine().split(",");
+        for (String userMovie : userMovies) {
+            watchedMovies.add(Integer.valueOf(userMovie));
+        }
     }
 }
