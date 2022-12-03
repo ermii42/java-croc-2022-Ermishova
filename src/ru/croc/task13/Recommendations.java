@@ -21,9 +21,8 @@ public class Recommendations {
 
         // отбор из базы данных людей, с которыми у пользователя совпадают интересы
         for (List<Integer> integers : preferencesBase) {
-            ArrayList<Integer> pref = (ArrayList<Integer>) integers;
-            if (intersection(pref)) {
-                for (Integer movie : pref) {
+            if (intersection(integers)) {
+                for (Integer movie : integers) {
                     if (!user.contains(movie)) {
                         sample.add(movie);
                     }
