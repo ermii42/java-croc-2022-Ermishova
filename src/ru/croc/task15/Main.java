@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         String[] scan;
-        Tree tree = null;
+        Tree tree = new Tree(new Node(null, 0));
         try (Scanner s = new Scanner(new FileReader("src/ru/croc/task15/sourse/" + "input.txt"))) {
             while (s.hasNextLine()) {
                 scan = s.nextLine().split(",");
@@ -24,14 +24,6 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(findTime(tree.getRoot()));
-    }
-
-    static int findTime(Node parent) {
-        int res = 0;
-        for (Node node : parent.getOffsprings()) {
-            res = Math.max(res, findTime(node));
-        }
-        return res + parent.getHours();
+        System.out.println(tree.findTime(tree.getRoot()));
     }
 }

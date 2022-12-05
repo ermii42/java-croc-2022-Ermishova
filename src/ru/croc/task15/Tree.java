@@ -21,4 +21,11 @@ public class Tree {
     public Node getRoot() {
         return root;
     }
+   public int findTime(Node parent) {
+        int res = 0;
+        for (Node node : parent.getOffsprings()) {
+            res = Math.max(res, findTime(node));
+        }
+        return res + parent.getHours();
+    }
 }
