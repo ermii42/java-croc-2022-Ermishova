@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class Tree {
     private Node root;
-    private Map<String, Node> tree = new HashMap<>();
+    private final Map<String, Node> tree = new HashMap<>();
 
-    public Tree(Node root) {
+    public void setRoot(Node root) {
         this.root = root;
         tree.put(root.getName(), root);
     }
@@ -20,12 +20,5 @@ public class Tree {
 
     public Node getRoot() {
         return root;
-    }
-   public int findTime(Node parent) {
-        int res = 0;
-        for (Node node : parent.getOffsprings()) {
-            res = Math.max(res, findTime(node));
-        }
-        return res + parent.getHours();
     }
 }

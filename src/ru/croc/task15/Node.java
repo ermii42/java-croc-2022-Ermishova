@@ -1,10 +1,10 @@
 package ru.croc.task15;
 
-import java.util.ArrayList;
+import java.util.*;
 
 // узел
 public class Node {
-    private final ArrayList<Node> offsprings = new ArrayList<>();
+    private final List<Node> offsprings = new ArrayList<>();
     private final int hours;
     private final String name;
 
@@ -17,15 +17,15 @@ public class Node {
         offsprings.add(elem);
     }
 
-    public ArrayList<Node> getOffsprings() {
-        return offsprings;
-    }
-
     public String getName() {
         return name;
     }
 
-    public int getHours() {
-        return hours;
+    public int findTime() {
+        int res = 0;
+        for (Node node : offsprings) {
+            res = Math.max(res, node.findTime());
+        }
+        return res + hours;
     }
 }
