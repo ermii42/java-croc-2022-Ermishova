@@ -10,10 +10,10 @@ public class Main {
         List<String> blackList = new ArrayList<>();
         inputTestBlackList(blackList);
 
-        MyFilter<String> filter = new MyFilter<String>();
+        MyFilter<String> filter = new MyFilter<>();
         ArrayList<String> arr = (ArrayList<String>) comments;
         // фильтр плохих комментариев
-        for(String badWord: blackList){
+        for (String badWord : blackList) {
             arr = (ArrayList<String>) filter.filterComments(arr, isContains(badWord));
         }
         // вывод результата
