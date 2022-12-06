@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface BlackListFilter<E> {
-    default List<E> filterComments(Iterable<E> comments, Predicate<? super E> predicate) {
+    default List<E> filterComments(Iterable<E> comments, Predicate<E> predicate) {
         List<E> out = new ArrayList<>();
         for (E comment : comments) {
             if (!predicate.test(comment)) {
