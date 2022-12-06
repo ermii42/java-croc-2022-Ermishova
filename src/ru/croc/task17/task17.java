@@ -6,15 +6,19 @@ import java.sql.*;
 
 public class task17 {
     private static final String connectionUrl = "jdbc:h2:tcp://localhost/~/test";
-    ;
-    private static final String CREATE_TABLE_QUERY = "DROP TABLE IF EXISTS store; CREATE TABLE store ("
-            + "id INTEGER PRIMARY KEY AUTO_INCREMENT, "
+    private static final String CREATE_TABLE_QUERY_ORDER = "DROP TABLE IF EXISTS order1; CREATE TABLE order1 ("
+            + "id INTEGER PRIMARY KEY, "
             + "orderNumber INTEGER, "
             + "login TEXT, "
+            + "vendorCode TEXT) ";
+    private static final String CREATE_TABLE_QUERY_PRODUCT = "DROP TABLE IF EXISTS product; CREATE TABLE product ("
+            + "id INTEGER PRIMARY KEY, "
             + "vendorCode TEXT, "
             + "productName TEXT, "
-            + "price INTEGER)";
-    private static final String INSERT_PERSON_QUERY = "INSERT INTO store (id, orderNumber, login, vendorCode, productName, price) VALUES (?, ?, ?, ?, ?, ?)";
+            + "price INTEGER, "
+            + "UNIQUE (vendorCode)) ";
+    private static final String INSERT_PERSON_QUERY_ORDER = "INSERT INTO order1 (id, orderNumber, login, vendorCode) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_PERSON_QUERY_PRODUCT = "INSERT INTO product (id, vendorCode, productName, price) VALUES (?, ?, ?, ?)";
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         int k = 0;
@@ -24,35 +28,35 @@ public class task17 {
 
         // open connection as an auto-closeable resource
         try (Connection connection = DriverManager.getConnection(connectionUrl, user, password)) {
-
-            // create and run statement
-            try (Statement stmt = connection.createStatement()) {
-                stmt.execute(CREATE_TABLE_QUERY);
-            } catch (SQLException exc) {
-                exc.printStackTrace();
-            }
+            createStatement(connection);
             try (BufferedReader reader = new BufferedReader(new FileReader(args[0]));
-                 PreparedStatement stmt = connection.prepareStatement(INSERT_PERSON_QUERY)) {
+                 PreparedStatement stmt1 = connection.prepareStatement(INSERT_PERSON_QUERY_ORDER);
+                 PreparedStatement stmt2 = connection.prepareStatement(INSERT_PERSON_QUERY_PRODUCT)) {
                 String[] record;
                 String line;
                 while ((line = reader.readLine()) != null) {
                     record = line.split(",");
                     k++;
-                    stmt.setInt(1, k);
-                    stmt.setInt(2, Integer.parseInt(record[0]));
-                    stmt.setString(3, record[1]);
-                    stmt.setString(4, record[2]);
-                    stmt.setString(5, record[3]);
-                    stmt.setInt(6, Integer.parseInt(record[4]));
-                    stmt.executeUpdate();
+                    stmt1.setInt(1, k);
+                    stmt1.setInt(2, Integer.parseInt(record[0]));
+                    stmt1.setString(3, record[1]);
+                    stmt1.setString(4, record[2]);
+                    try {
+                        stmt2.setString(2, record[2]);
+                        stmt2.setInt(1, k);
+                        stmt2.setString(3, record[3]);
+                        stmt2.setInt(4, Integer.parseInt(record[4]));
+                        stmt2.executeUpdate();
+                    } catch (org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException ignored) {
+                    }
+
+                    stmt1.executeUpdate();
                 }
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            } catch (SQLException exc) {
+            } catch (IOException | SQLException exc) {
                 exc.printStackTrace();
             }
             Statement stmt = connection.createStatement();
-            ResultSet resultSet = stmt.executeQuery("SELECT * FROM store");
+            ResultSet resultSet = stmt.executeQuery("SELECT * FROM order1 o JOIN product p ON o.vendorCode = p.vendorCode");
             printResultSet(resultSet);
         }
     }
@@ -74,6 +78,16 @@ public class task17 {
                 System.out.print(resultSet.getString(i + 1));
             }
             System.out.println();
+        }
+    }
+
+    private static void createStatement(Connection connection) {
+        // create and run statement
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(CREATE_TABLE_QUERY_ORDER);
+            stmt.execute(CREATE_TABLE_QUERY_PRODUCT);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
         }
     }
 }
