@@ -7,21 +7,20 @@ import java.sql.*;
 public class task17 {
     private static final String connectionUrl = "jdbc:h2:tcp://localhost/~/test";
     private static final String CREATE_TABLE_QUERY_ORDER = "DROP TABLE IF EXISTS order1; CREATE TABLE order1 ("
-            + "id INTEGER PRIMARY KEY, "
+            + "id INTEGER PRIMARY KEY AUTO_INCREMENT, "
             + "orderNumber INTEGER, "
             + "login TEXT, "
             + "vendorCode TEXT) ";
     private static final String CREATE_TABLE_QUERY_PRODUCT = "DROP TABLE IF EXISTS product; CREATE TABLE product ("
-            + "id INTEGER PRIMARY KEY, "
+            + "id INTEGER PRIMARY KEY AUTO_INCREMENT, "
             + "vendorCode TEXT, "
             + "productName TEXT, "
             + "price INTEGER, "
             + "UNIQUE (vendorCode)) ";
-    private static final String INSERT_PERSON_QUERY_ORDER = "INSERT INTO order1 (id, orderNumber, login, vendorCode) VALUES (?, ?, ?, ?)";
-    private static final String INSERT_PERSON_QUERY_PRODUCT = "INSERT INTO product (id, vendorCode, productName, price) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_PERSON_QUERY_ORDER = "INSERT INTO order1 (orderNumber, login, vendorCode) VALUES ( ?, ?, ?)";
+    private static final String INSERT_PERSON_QUERY_PRODUCT = "INSERT INTO product ( vendorCode, productName, price) VALUES ( ?, ?, ?)";
 
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-        int k = 0;
         Class.forName("org.h2.Driver");
         String user = "sa";
         String password = "sa";
@@ -36,16 +35,13 @@ public class task17 {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     record = line.split(",");
-                    k++;
-                    stmt1.setInt(1, k);
-                    stmt1.setInt(2, Integer.parseInt(record[0]));
-                    stmt1.setString(3, record[1]);
-                    stmt1.setString(4, record[2]);
+                    stmt1.setInt(1, Integer.parseInt(record[0]));
+                    stmt1.setString(2, record[1]);
+                    stmt1.setString(3, record[2]);
                     try {
-                        stmt2.setString(2, record[2]);
-                        stmt2.setInt(1, k);
-                        stmt2.setString(3, record[3]);
-                        stmt2.setInt(4, Integer.parseInt(record[4]));
+                        stmt2.setString(1, record[2]);
+                        stmt2.setString(2, record[3]);
+                        stmt2.setInt(3, Integer.parseInt(record[4]));
                         stmt2.executeUpdate();
                     } catch (org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException ignored) {
                     }
