@@ -3,10 +3,10 @@ package ru.croc.task18;
 import java.sql.*;
 
 public class Product {
-    private int id;
-    private String vendorCode;
-    private String productName;
-    private int price;
+    private final int id;
+    private final String vendorCode;
+    private final String productName;
+    private final int price;
 
     public Product(int id, String vendorCode, String productName, int price) {
         this.id = id;
