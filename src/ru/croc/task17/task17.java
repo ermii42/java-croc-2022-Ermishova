@@ -75,13 +75,11 @@ public class task17 {
         }
     }
 
-    private static void createStatement(Connection connection) {
+    private static void createStatement(Connection connection) throws SQLException {
         // create and run statement
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(CREATE_TABLE_QUERY_ORDER);
             stmt.execute(CREATE_TABLE_QUERY_PRODUCT);
-        } catch (SQLException exc) {
-            exc.printStackTrace();
         }
     }
 }
