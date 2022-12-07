@@ -7,11 +7,11 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
 
         String[] scan;
         Tree tree = new Tree();
-        try (Scanner s = new Scanner(new FileReader("src/ru/croc/task15/sourse/" + "input.txt"))) {
+        try (Scanner s = new Scanner(new FileReader("src/ru/croc/task15/sours/" + "input.txt"))) {
             while (s.hasNextLine()) {
                 scan = s.nextLine().split(",");
 
@@ -21,8 +21,6 @@ public class Main {
                     tree.addNode(scan[0], scan[1], parseInt(scan[2]));
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
         }
         int result = tree.getRoot().findTime();
         System.out.println(result);

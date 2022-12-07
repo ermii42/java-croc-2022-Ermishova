@@ -2,8 +2,11 @@ package ru.croc.task19;
 
 public class task19 {
     public static void main(String[] args) {
-        Window wind = new Window();
+        loadAnimation();
+    }
 
+    public static void loadAnimation() {
+        Window wind = new Window();
         int k = 0;
         while (k < 1 << 5) {
             for (int i = 1; i < 72; i++) {

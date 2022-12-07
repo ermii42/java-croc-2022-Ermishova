@@ -45,12 +45,10 @@ public class task17 {
                         stmt2.executeUpdate();
                     } catch (org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException ignored) {
                     }
-
                     stmt1.executeUpdate();
                 }
-            } catch (IOException | SQLException exc) {
-                exc.printStackTrace();
             }
+
             Statement stmt = connection.createStatement();
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM order1 o JOIN product p ON o.vendorCode = p.vendorCode");
             printResultSet(resultSet);
