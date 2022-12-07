@@ -26,7 +26,7 @@ public class LogReader {
 
     public String readLogLine() throws IOException {
         String line = bufferedReader.readLine();
-        if(line != null){
+        if (line != null) {
             String[] args = line.split(" ");
             time = Long.parseLong(args[0]);
             message = args[1];

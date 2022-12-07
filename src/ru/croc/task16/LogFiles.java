@@ -10,17 +10,12 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class LogFiles {
-    private static Queue<LogReader> filesQueue = new PriorityQueue<LogReader>(new Comparator<LogReader>() {
-        @Override
-        public int compare(LogReader o1, LogReader o2) {
-            return Long.compare(o1.getTime(), o2.getTime());
-        }
-    });
+    private static final Queue<LogReader> filesQueue = new PriorityQueue<>(Comparator.comparingLong(LogReader::getTime));
 
     public static void readLogFiles(Path dir) throws IOException {
-        for (File file: Files.walk(dir).filter(Files::isRegularFile)
+        for (File file : Files.walk(dir).filter(Files::isRegularFile)
                 .filter(file -> file.getFileName().toString().toLowerCase(Locale.ROOT).matches(".+(.log|.trace)"))
-                .map(Path::toFile).toList()){
+                .map(Path::toFile).toList()) {
             filesQueue.add(new LogReader(file));
         }
         while (!filesQueue.isEmpty()) {
