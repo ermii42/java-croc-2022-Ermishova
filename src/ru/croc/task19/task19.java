@@ -1,11 +1,13 @@
 package ru.croc.task19;
 
+import java.io.FileNotFoundException;
+
 public class task19 {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
         loadAnimation();
     }
 
-    public static void loadAnimation() throws InterruptedException {
+    public static void loadAnimation() throws InterruptedException, FileNotFoundException {
         Window wind = new Window();
         int k = 0;
         while (k < 1 << 5) {

@@ -2,6 +2,7 @@ package ru.croc.task19;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class Window extends JFrame {
 
@@ -18,9 +19,9 @@ public class Window extends JFrame {
 
     }
 
-    public void loadImage(String src) {
+    public void loadImage(String src) throws FileNotFoundException {
         img = new ImageIcon(src).getImage();
-        if (img == null) System.out.println("Нет картинки");
+        if (new ImageIcon(src).getIconHeight() < 0) throw new FileNotFoundException(src);
     }
 
     public void drawIcon() {
