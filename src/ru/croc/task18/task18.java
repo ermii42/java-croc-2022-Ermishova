@@ -40,17 +40,18 @@ public class task18 {
     }
 
     private static void testDao(Connection connection) throws SQLException {
-        DAO dao = new DAO(connection);
-        Product product = dao.findProduct("Т2");
+        ProductDAO productDao = new ProductDAO(connection);
+        OrderDAO orderDAO = new OrderDAO(connection);
+        Product product = productDao.findProduct("Т2");
         System.out.println(product);
         List<Product> lst = new ArrayList<>();
         lst.add(product);
         lst.add(product);
-        Order order = dao.createOrder("Катя", lst);
+        Order order = orderDAO.createOrder("Катя", lst);
         System.out.println(order);
-        product = dao.updateProduct(new Product(1, "Т2", "камыш", 123));
+        product = productDao.updateProduct(new Product(1, "Т2", "камыш", 123));
         System.out.println(product);
-        dao.deleteProduct("Т5");
+        productDao.deleteProduct("Т5");
         Statement stmt = connection.createStatement();
         ResultSet resultSet = stmt.executeQuery("SELECT * FROM order1 o JOIN product p ON o.vendorCode = p.vendorCode");
         printResultSet(resultSet);
