@@ -8,7 +8,7 @@ import java.util.List;
 public class task18 {
     private static final String connectionUrl = "jdbc:h2:tcp://localhost/~/test";
 
-    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException, NotUniqueException {
         Class.forName("org.h2.Driver");
         String user = "sa";
         String password = "sa";
@@ -39,7 +39,7 @@ public class task18 {
         }
     }
 
-    private static void testDao(Connection connection) throws SQLException {
+    private static void testDao(Connection connection) throws SQLException, NotUniqueException {
         ProductDAO productDao = new ProductDAO(connection);
         OrderDAO orderDAO = new OrderDAO(connection);
         Product product = productDao.findProduct("Т2");
