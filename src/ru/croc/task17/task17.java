@@ -1,7 +1,10 @@
 package ru.croc.task17;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
+import java.util.logging.Logger;
 
 
 public class task17 {
@@ -24,6 +27,7 @@ public class task17 {
         Class.forName("org.h2.Driver");
         String user = "sa";
         String password = "sa";
+        Logger log = Logger.getLogger(task17.class.getName());
 
         // open connection as an auto-closeable resource
         try (Connection connection = DriverManager.getConnection(connectionUrl, user, password)) {
@@ -44,6 +48,7 @@ public class task17 {
                         stmt2.setInt(3, Integer.parseInt(record[4]));
                         stmt2.executeUpdate();
                     } catch (org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException ignored) {
+                        log.info("товар с артиклем " + record[2] + " уже существует, пропускаем");
                     }
                     stmt1.executeUpdate();
                 }
