@@ -14,13 +14,15 @@ public class LogFiles {
 
     public static void readLogFiles(Path dir) throws IOException {
         for (File file : Files.walk(dir).filter(Files::isRegularFile)
-                .filter(file -> file.getFileName().toString().toLowerCase(Locale.ROOT).matches(".+(.log|.trace)"))
+                .filter(file -> file.getFileName().toString().toLowerCase(Locale.ROOT).matches(".+(\\.log|\\.trace)"))
                 .map(Path::toFile).toList()) {
             filesQueue.add(new LogReader(file));
         }
         while (!filesQueue.isEmpty()) {
             LogReader logFile = filesQueue.poll();
-            System.out.println(logFile.getTime() + " " + logFile.getMessage());
+            if (logFile.getMessage() != null){
+                System.out.println(logFile.getTime() + " " + logFile.getMessage());
+            }
             if (logFile.readLogLine() != null) {
                 filesQueue.add(logFile);
                 continue;
